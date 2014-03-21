@@ -14,6 +14,13 @@ class CourseDateTime extends CalendarDateTime {
 		));	
 	}
 	
+	public function getCMSFields() { 
+		$fields = parent::getCMSFields(); 
+		$fields->push(new NumericField('TicketsAvailable', _t('CalendarDateTime.TICKETS','Tickets Available')));
+		
+		return $fields;
+	}
+	
 	public function CanRegister() {
 		return $this->TicketsAvailable > 0;
 		}

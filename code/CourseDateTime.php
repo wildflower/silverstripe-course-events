@@ -5,18 +5,14 @@ class CourseDateTime extends CalendarDateTime {
 	);
 
 	static $has_one = array (
-		'Course' => 'Course'
+		'Course' => 'Course'		
 		);
 		
-	public function extendTable(){
-		$this->addTabletitles(array(
-		'TicketsAvailable' => _t('Course.TICKETSAVAILABLE','Tickets available')
-		));	
-	}
-	
 	public function getCMSFields() { 
 		$fields = parent::getCMSFields(); 
-		$fields->push(new NumericField('TicketsAvailable', _t('CalendarDateTime.TICKETS','Tickets Available')));
+		$fields->push(new NumericField('TicketsAvailable', _t('CalendarDateTime.TICKETS','Tickets Available')));		
+		//Debug::message(" the parent is : ".$this->ParentID );
+		$fields->push(new HiddenField("EventID", "EventID", Controller::curr()->CurrentPageID())); 
 		
 		return $fields;
 	}

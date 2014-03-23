@@ -20,6 +20,15 @@ class CourseHolder extends Calendar {
 }
  
 class CourseHolder_Controller extends Calendar_Controller {
+
+	public function init() {
+		parent::init();
+		// You can include any CSS or JS required by your project here.
+		// See: http://doc.silverstripe.org/framework/en/reference/requirements
+		//Debug::message("Wow, that's great");
+		//SS_Backtrace::backtrace();
+	}
+	
 	static $allowed_actions = array (
 		'register',
 		'RegistrationForm'
@@ -33,6 +42,7 @@ class CourseHolder_Controller extends Calendar_Controller {
 	}
 
 public function doRegister($data, $form) {
+
 
    // Sanity check
     if(!isset($data['DateID'])) {

@@ -36,9 +36,9 @@ class Course extends CalendarEvent {
 }
 class Course_Controller extends CalendarEvent_Controller {
 
-	public function init() {
+	/*public function init() {
 		parent::init();
 		Requirements::themedCSS('calendar','event_calendar');		
-	}
+	}*/
 }
 ?>

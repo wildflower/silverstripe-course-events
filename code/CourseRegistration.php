@@ -25,7 +25,7 @@ class CourseRegistration extends DataObject {
 
     public function getDateLabel() {
         if($this->Date()) {
-            return $this->Date()->_Dates();
+            return $this->Date();
         }
     }
 

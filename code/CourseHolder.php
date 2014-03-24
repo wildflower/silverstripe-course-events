@@ -12,8 +12,8 @@ class CourseHolder extends Calendar {
     
     public function getCMSFields() {
 		$f = parent::getCMSFields();
-		//$gridField = new GridField('registrations', 'All Registrations', CourseRegistration::get());
-		//$f->addFieldToTab("Root.Content.Registrations",   $gridField );
+		$gridField = new GridField('registrations', 'All Registrations', CourseRegistration::get());
+		$f->addFieldToTab("Root.Registrations",   $gridField );
 		return $f;
 	}
 
@@ -39,6 +39,33 @@ class CourseHolder_Controller extends Calendar_Controller {
 			return Director::redirectBack();
 		}
 		return array();
+	}
+	
+		public function RegistrationForm() {
+		$date_id = (int) $this->getRequest()->requestVar('DateID');
+		
+		if(!$date = DataObject::get_by_id("CourseDateTime", $date_id)) {
+			return $this->httpError(404);
+		}
+		$date_map = array();
+		if($course = $date->Course()) {
+			if($all_dates = $course->DateTimes()) {
+				$date_map = $all_dates->map('ID','DateLabel');
+			}
+		}
+		return new Form (
+			$this,
+			"RegistrationForm",
+			new FieldList (
+				new TextField('Name', _t('Course.Name','Name')),
+				new EmailField('Email', _t('Course.EMAIl','Email')),
+				new DropdownField('DateID', _t('Course.CHOOSEDATE','Choose a date'), $date_map, $date_id)
+			),
+			new FieldList (
+				new FormAction('doRegister', _t('Course.REGISTER','Register'))
+			),
+			new RequiredFields('Name','Email','DateID')
+		);
 	}
 
 public function doRegister($data, $form) {
@@ -71,7 +98,7 @@ public function doRegister($data, $form) {
 
     // Email the admin
 
-    $email = new Email($data['Email'], "administrator@yoursite.com", "Event Registration: {$conference->Title}");
+    $email = new Email($data['Email'], "administrator@yoursite.com", "Event Registration: {$course->Title}");
 
     $email->ss_template = "CourseRegistration";
 

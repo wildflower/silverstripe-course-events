@@ -12,7 +12,11 @@ class CourseHolder extends Calendar {
     
     public function getCMSFields() {
 		$f = parent::getCMSFields();
-		$gridField = new GridField('registrations', 'All Registrations', CourseRegistration::get());
+		$config = GridFieldConfig::create();
+		$config->addComponent(new GridFieldDataColumns());
+		$gridField = new GridField('registrations', 'All Registrations', CourseRegistration::get(),GridFieldConfig_RecordEditor::create());
+		
+		
 		$f->addFieldToTab("Root.Registrations",   $gridField );
 		return $f;
 	}

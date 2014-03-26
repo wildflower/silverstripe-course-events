@@ -30,6 +30,13 @@ class CourseDateTime extends CalendarDateTime {
 
 	}
 
+	public function forTemplate()	{
+		return $this->XML();
+	}
+	
+	public function XML(){
+		return Convert::raw2xml($this->value);
+     }
 }
 ?>
 

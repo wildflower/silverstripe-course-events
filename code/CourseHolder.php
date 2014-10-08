@@ -35,15 +35,49 @@ class CourseHolder_Controller extends Calendar_Controller {
 	
 	static $allowed_actions = array (
 		'register',
-		'RegistrationForm'
+		'RegistrationForm',
+		'order',
+		'booking',
+		'Form'
 	);
 	
+	
+    public function booking(SS_HTTPRequest $request) {
+    //dateID 
+    $date_id = $this->request->latestParam('OtherID'); 
+    echo $date_id;
+    
+    //print_r($request->allParams());
+    }
+    
+    public function order(SS_HTTPRequest $request) {
+        print_r($request->allParams());
+    }
+    
 	public function register(SS_HTTPRequest $request) {
 		if(!$request->requestVar('DateID')) {
 			return Director::redirectBack();
 		}
 		return array();
 	}
+	
+	
+	public $formclass = "AddCourseForm"; //allow overriding the type of form used
+
+	public function Form() {
+	SS_Log::log("var_dump CourseHolder $this", SS_Log::WARN);
+	
+		$formclass = $this->formclass;		
+		$form = new $formclass($this,"Form");		
+		$this->extend('updateForm', $form);
+		return $form;
+	}
+	
+	
+	
+	
+	
+	
 	
 		public function RegistrationForm() {
 		$date_id = (int) $this->getRequest()->requestVar('DateID');
@@ -63,6 +97,7 @@ class CourseHolder_Controller extends Calendar_Controller {
 			new FieldList (
 				new TextField('Name', _t('Course.Name','Name')),
 				new EmailField('Email', _t('Course.EMAIl','Email')),
+				new NumericField('Quantity', _t('Course.Quantity','Places')),
 				new DropdownField('DateID', _t('Course.CHOOSEDATE','Choose a date'), $date_map, $date_id)
 			),
 			new FieldList (
@@ -93,10 +128,10 @@ public function doRegister($data, $form) {
     $reg->CourseHolderID = $date->Course()->ParentID;
     $reg->write();
 
- 
+ //add to cart
 
     // Decrease the tickets available
-    $date->TicketsAvailable--;
+    $date->TicketsAvailable = $date->TicketsAvailable - $data['Quantity'];
     $date->write();
 
 

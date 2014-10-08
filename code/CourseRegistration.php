@@ -2,7 +2,8 @@
 class CourseRegistration extends DataObject {
 	static $db = array (
 		'Name' => 'Varchar',
-		'Email' => 'Varchar'
+		'Email' => 'Varchar',
+		'Quantity' => 'Int'
 	);
 
     static $has_one = array (
@@ -13,6 +14,7 @@ class CourseRegistration extends DataObject {
     static $summary_fields = array (
         'Name' => 'Name',
         'Email' => 'Email',
+	'Quantity' => 'Quantity',
         'CourseLabel' => 'Course',
         'DateLabel' => 'Date'
     );

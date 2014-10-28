@@ -5,7 +5,7 @@ $Content
 
 <div class="event-calendar-controls">
   $CalendarWidget
-  $MonthJumper
+
   <% include QuickNav %>
 </div>
 
